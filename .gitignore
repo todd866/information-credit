@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+
+# Keep PDFs and figures
+!paper/*.pdf
+!archive/latex/figures/*.pdf

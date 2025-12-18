@@ -1,0 +1,281 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{setspace}
+\doublespacing
+
+\title{Negative Work as an Information Credit System:\\
+How Bias, Correlation, and Geometry Finance Low-Dissipation Computation}
+
+\author{Ian Todd\\
+Sydney Medical School\\
+University of Sydney\\
+\texttt{itod2305@uni.sydney.edu.au}}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Landauer's principle is routinely misquoted as ``erasing a bit costs $k_\mathrm{B}T\ln 2$.'' The correct statement is entropic: minimal work scales with \emph{entropy removed}, not bit-count. This distinction matters because real substrates—biological, nanoscale, or engineered—are not featureless thermal baths. They contain \emph{bias} (nonuniform priors) and \emph{correlations} (side information) that reduce the entropy cost of information processing, plus \emph{geometric structure} (optimal control landscapes) that reduce finite-time dissipation.
+
+We formalize the first two as \textbf{state credit}—thermodynamic resources that can be accrued and spent—and distinguish them from \textbf{protocol efficiency}, which reduces irreversible losses but is not itself a conserved quantity. Episodes of apparent ``negative Landauer work'' correspond to spending stored state credit, not violating thermodynamics. We derive quantitative predictions testable in colloidal and biological systems.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Landauer principle; nonequilibrium free energy; mutual information; thermodynamic length; information geometry
+
+\section{Introduction}
+
+The physics of information processing is often summarized by Landauer's limit: erasing one bit of information requires dissipating at least $k_\mathrm{B}T\ln 2$ of heat \citep{landauer1961}. This statement is correct only for a maximally uncertain bit in contact with a featureless thermal reservoir. The general bound is
+\begin{equation}
+    W_{\mathrm{rev}} \geq k_\mathrm{B}T \, \Delta S_{\mathrm{register}},
+    \label{eq:landauer_general}
+\end{equation}
+where $\Delta S_{\mathrm{register}}$ is the entropy \emph{removed} from the information-bearing degrees of freedom \citep{bennett1982,parrondo2015}. A biased bit has less entropy; erasing it costs less.
+
+This entropic framing resolves apparent paradoxes. Experiments have demonstrated erasure below the ``$k_\mathrm{B}T\ln 2$ limit'' using tilted potentials \citep{berut2012} and work extraction from information using feedback \citep{toyabe2010}. These results are not violations—they are consequences of structure in the initial state or correlations with a measurement apparatus.
+
+The purpose of this paper is to provide a clear accounting scheme for these phenomena. We distinguish two mechanisms:
+\begin{enumerate}
+    \item \textbf{State credit:} Bias and correlations reduce the \emph{reversible} work bound by reducing the entropy that must be removed. This is a true thermodynamic resource—creating it costs work; consuming it recovers work.
+    \item \textbf{Protocol efficiency:} Geometric structure in the control landscape reduces \emph{irreversible} dissipation during finite-time operations. This is not a conserved resource but a property of the transformation path.
+\end{enumerate}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/fig1_credit_ledger.pdf}
+    \caption{\textbf{The credit ledger.} State credit (bias, correlations) reduces the reversible work bound. Protocol efficiency (optimal paths through control space) reduces irreversible dissipation. Both mechanisms allow sub-na\"ive-Landauer operation; only state credit can produce negative reversible work.}
+    \label{fig:ledger}
+\end{figure}
+
+\section{State Credit I: Bias}
+
+Consider a binary register $X \in \{0,1\}$ with probability $p = P(X=1)$. Resetting to a standard state removes entropy
+\begin{equation}
+    H(X) = -p\log_2 p - (1-p)\log_2(1-p)
+\end{equation}
+bits. The minimal (reversible) work is
+\begin{equation}
+    W_{\mathrm{rev}} = k_\mathrm{B}T\ln 2 \cdot H(X).
+    \label{eq:wrev_bias}
+\end{equation}
+
+For $p = 0.5$, this gives the familiar $k_\mathrm{B}T\ln 2$. For $p = 0.1$, the entropy is $H \approx 0.47$ bits and the cost drops to $0.47 \, k_\mathrm{B}T\ln 2$. The register's bias is not separate from the entropy—it \emph{is} the reduced entropy. No additional ``bias credit'' term is needed; the effect is already in $H(X)$.
+
+The negentropy $1 - H(X)$ quantifies how much cheaper erasure is compared to the unbiased case. This negentropy was ``paid for'' when the bias was created—by measurement, asymmetric initialization, or prior computation.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/fig2_tilted_register.pdf}
+    \caption{\textbf{Bias reduces erasure cost.} Erasure cost (blue) scales with Shannon entropy, not bit-count. The complement (orange) is negentropy—the ``discount'' relative to an unbiased bit.}
+    \label{fig:tilt}
+\end{figure}
+
+\section{State Credit II: Correlations}
+
+If the register $X$ is correlated with an auxiliary system $Y$, the erasure bound tightens further. Given access to $Y$, the minimal work to reset $X$ is \citep{delrio2011,sagawa2010}
+\begin{equation}
+    W_{\mathrm{rev}} = k_\mathrm{B}T\ln 2 \cdot H(X|Y),
+    \label{eq:wrev_corr}
+\end{equation}
+where $H(X|Y) = H(X) - I(X;Y)$ is the conditional entropy. The mutual information $I(X;Y)$ is a true thermodynamic resource:
+\begin{itemize}
+    \item Creating $I(X;Y)$ bits of correlation costs at least $k_\mathrm{B}T\ln 2 \cdot I(X;Y)$ in work.
+    \item Consuming it (via conditional erasure or feedback) recovers at most the same amount.
+\end{itemize}
+
+The Sagawa-Ueda equality makes this precise \citep{sagawa2010,toyabe2010}:
+\begin{equation}
+    W_{\mathrm{extract}} \leq k_\mathrm{B}T\ln 2 \cdot I(X;Y).
+    \label{eq:sagawa_ueda}
+\end{equation}
+
+\textbf{State credit} is thus the sum of negentropy and accessible mutual information:
+\begin{equation}
+    C_{\mathrm{state}} = \bigl[H_{\max} - H(X)\bigr] + I(X;Y),
+    \label{eq:state_credit}
+\end{equation}
+where $H_{\max} = \log_2|\mathcal{X}|$ is the register's capacity (1 bit for a binary register). The reversible work bound becomes
+\begin{equation}
+    W_{\mathrm{rev}} = k_\mathrm{B}T\ln 2 \cdot \bigl[H_{\max} - C_{\mathrm{state}}\bigr].
+    \label{eq:wrev_credit}
+\end{equation}
+Note that classically $I(X;Y) \leq H(X)$, so $C_{\mathrm{state}} \leq H_{\max}$ and $W_{\mathrm{rev}} \geq 0$ always. Work extraction (Eq.~\ref{eq:sagawa_ueda}) comes from \emph{feedback operations} that exploit correlations, not from negative erasure work. The credit perspective clarifies that such extraction is financed by previously established mutual information.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/fig3_side_information.pdf}
+    \caption{\textbf{Correlation credit.} For a uniform bit ($H(X)=1$), side information $I(X;Y)$ reduces the erasure bound (blue) and sets the extraction ceiling (orange). At $I=1$, erasure is free and full bit-to-work conversion is possible.}
+    \label{fig:sideinfo}
+\end{figure}
+
+\subsection{Conservation of state credit}
+
+The second law guarantees that state credit cannot increase without external work:
+\begin{equation}
+    \frac{dC_{\mathrm{state}}}{dt} \leq \frac{\dot{W}_{\mathrm{in}}}{k_\mathrm{B}T\ln 2}.
+    \label{eq:conservation}
+\end{equation}
+Credit can be transferred between subsystems, converted between forms (measurement converts work into correlation), or dissipated—but not created from nothing. This is the bookkeeping constraint that prevents perpetual motion.
+
+\section{Protocol Efficiency: Geometry}
+
+Bias and correlation concern the \emph{endpoints} of a transformation (what states are involved). A separate question is \emph{how} you get there. Even between fixed initial and final distributions, different protocols incur different dissipation.
+
+For slow driving near equilibrium, total work decomposes as
+\begin{equation}
+    W = W_{\mathrm{rev}} + W_{\mathrm{irr}},
+\end{equation}
+where $W_{\mathrm{rev}}$ is the reversible (quasistatic) work from Eq.~\eqref{eq:wrev_credit} and $W_{\mathrm{irr}}$ is irreversible dissipation. The latter is bounded by \citep{sivak2012,crooks2007}
+\begin{equation}
+    W_{\mathrm{irr}} \geq \frac{k_\mathrm{B}T}{2\tau} \mathcal{L}^2,
+    \label{eq:thermolength}
+\end{equation}
+where $\tau$ is the protocol duration and $\mathcal{L}$ is the \textbf{thermodynamic length}—the path length through parameter space measured in a metric derived from fluctuations (typically the Fisher information metric).
+
+Consider univariate Gaussian distributions with mean $\mu$ and standard deviation $\sigma$. The Fisher metric is
+\begin{equation}
+    ds^2 = \frac{d\mu^2}{\sigma^2} + \frac{2\,d\sigma^2}{\sigma^2}.
+    \label{eq:fisher}
+\end{equation}
+This metric is \emph{anisotropic}: changes in $\mu$ are expensive when $\sigma$ is small (the distribution is narrow and ``notices'' shifts), while changes in $\sigma$ are uniformly weighted. Geodesics—paths minimizing $\mathcal{L}$—curve through this landscape to exploit cheap directions.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/fig4_thermodynamic_length.pdf}
+    \caption{\textbf{Protocol efficiency.} In the Fisher geometry of Gaussians, geodesics (curved) are shorter than axis-aligned protocols. For duration $\tau$, excess dissipation scales as $\mathcal{L}^2/\tau$, so the geodesic reduces irreversible work by the squared-length ratio.}
+    \label{fig:thermolength}
+\end{figure}
+
+\textbf{Key distinction:} Protocol efficiency is \emph{not} a conserved resource. Using an optimal protocol does not ``spend'' anything—it simply avoids waste. The geodesic is always available; the question is whether the controller knows it. This is why we separate protocol efficiency from state credit:
+\begin{itemize}
+    \item State credit obeys a conservation law (Eq.~\ref{eq:conservation}).
+    \item Protocol efficiency does not. It reduces $W_{\mathrm{irr}}$ but cannot make $W_{\mathrm{rev}}$ negative.
+\end{itemize}
+
+A system that has learned or evolved the optimal protocol dissipates less than one using a naive protocol. But this advantage comes from \emph{knowledge}, not from a thermodynamic reservoir that depletes upon use.
+
+\section{Combined Bound}
+
+Putting together state credit and protocol efficiency, the total work for a finite-time operation satisfies
+\begin{equation}
+    W \;\geq\; k_\mathrm{B}T\ln 2 \cdot \bigl[H_{\max} - C_{\mathrm{state}}\bigr] \;+\; \frac{k_\mathrm{B}T}{2\tau}\mathcal{L}^2.
+    \label{eq:combined}
+\end{equation}
+The first term is the reversible bound (reduced by state credit); the second is the irreversible floor (reduced by protocol efficiency). Both must be paid, but they are paid in different currencies:
+\begin{itemize}
+    \item The first term approaches zero as $C_{\mathrm{state}} \to H_{\max}$ (erasure becomes free).
+    \item The second term is always non-negative (dissipation cannot be negative).
+\end{itemize}
+
+Episodes of ultra-low dissipation occur when state credit is high (reducing the reversible term) \emph{and} the protocol is efficient (reducing the irreversible term). Work extraction requires feedback operations (Eq.~\ref{eq:sagawa_ueda}), not negative erasure.
+
+\section{Testable Predictions}
+
+\subsection{Colloidal erasure with variable bias}
+
+Bérut et al.\ \citep{berut2012} measured heat dissipation during erasure of a colloidal particle in a double-well potential. Extending their protocol:
+\begin{itemize}
+    \item Vary the initial trap asymmetry to create bias $p \neq 0.5$.
+    \item Prediction: measured heat $Q = k_\mathrm{B}T\ln 2 \cdot H(p) + W_{\mathrm{irr}}$, where $H(p)$ is the binary entropy.
+    \item At $p = 0.1$, the reversible contribution should be ${\sim}47\%$ of the symmetric case.
+\end{itemize}
+
+\subsection{Feedback engine with partial information}
+
+Toyabe et al.\ \citep{toyabe2010} demonstrated work extraction using feedback. A more stringent test:
+\begin{itemize}
+    \item Introduce controlled noise into the measurement channel, reducing $I(X;Y)$ below 1 bit.
+    \item Prediction: extractable work $W_{\mathrm{out}} \leq k_\mathrm{B}T\ln 2 \cdot I(X;Y)$, saturating the Sagawa-Ueda bound.
+    \item The mutual information can be independently estimated from measurement statistics.
+\end{itemize}
+
+\subsection{Protocol optimization in molecular machines}
+
+For molecular motors or enzymes operating in finite time:
+\begin{itemize}
+    \item Compare dissipation under naive (e.g., linear ramp) vs.\ optimized protocols.
+    \item Prediction: irreversible dissipation ratio scales as $(\mathcal{L}_{\mathrm{naive}}/\mathcal{L}_{\mathrm{opt}})^2$.
+    \item Biological motors may have evolved near-geodesic conformational pathways; synthetic motors typically have not.
+\end{itemize}
+
+\subsection{Credit depletion in finite reservoirs}
+
+State credit conservation (Eq.~\ref{eq:conservation}) predicts depletion effects when the credit source is finite:
+\begin{itemize}
+    \item Consider a register coupled to a finite biasing reservoir (e.g., a small thermal gradient or a finite-capacity battery).
+    \item First erasure cycle: low dissipation (credit available from reservoir).
+    \item Subsequent cycles without reservoir replenishment: dissipation increases as reservoir equilibrates.
+    \item Prediction: exponential approach to unbiased-Landauer cost with time constant set by reservoir relaxation.
+\end{itemize}
+This distinguishes ``cheap because structured'' from ``cheap because slow'' (the latter shows no depletion).
+
+\section{Discussion}
+
+\subsection{Relation to existing frameworks}
+
+The state-credit/protocol-efficiency distinction reorganizes established results \citep{parrondo2015,seifert2012} into a cleaner accounting:
+
+\begin{itemize}
+    \item \textbf{``Beating Landauer''}: No system beats the entropic bound. Systems with low $H(X|Y)$ simply have less entropy to remove.
+    \item \textbf{Maxwell's demon}: The demon's memory is a correlation reservoir. Erasing it dissipates exactly what was ``saved'' during sorting \citep{bennett1982}.
+    \item \textbf{Feedback engines}: Work extraction is financed by mutual information, which was created by a prior measurement that cost at least as much.
+\end{itemize}
+
+\subsection{Biological implications}
+
+Living systems maintain structure at multiple scales. The credit perspective connects to several active research programs:
+
+\begin{enumerate}
+    \item \textbf{Cheap perception.} If internal states are already biased toward expected inputs, updating them costs less than updating on surprises. Metabolic cost of perception should scale with surprise—a thermodynamic Bayesian brain.
+
+    \item \textbf{Development as credit accumulation.} Embryogenesis creates correlated, low-entropy structures. These constitute a credit reserve for later adaptation.
+
+    \item \textbf{Aging as credit depletion.} Loss of molecular correlations and regulatory coherence depletes the state-credit reserve, making homeostatic operations progressively more costly. This aligns with complex-systems approaches to aging that emphasize declining resilience and network integrity \citep{cohen2022}.
+
+    \item \textbf{Evolved protocol efficiency.} Natural selection can optimize not just what states organisms visit but how they traverse state space. Near-geodesic developmental trajectories would minimize dissipation.
+\end{enumerate}
+
+\subsection{Dimensional prerequisites}
+
+The framework presented here assumes a fixed state space. But all information-theoretic quantities---entropy, mutual information, surprise---are implicitly parameterized by the embedding dimension of that space. A ``bit'' only makes sense relative to a dimensional frame: the same physical process might register as one bit in a two-dimensional projection, zero bits if the apparent distinction collapses to a single equivalence class, or multiple bits in a higher-dimensional representation that resolves additional structure.
+
+This is not merely a measurement issue. If a system is constrained to a low-dimensional embedding, distinctions that would exist in higher dimensions become \emph{unrepresentable}, not merely expensive. For deterministic recurrent processes---those that revisit states without self-intersection---phase-preserving embeddings require at least three dimensions; in two dimensions, temporally distinct states are forced to collide \citep{todd2025embedding}. (This is analogous to classical results on embedding dimension for attractors; cf.\ Takens' theorem.) No amount of credit can purchase distinctions that the embedding cannot represent.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig5_dimensional_aliasing.pdf}
+    \caption{\textbf{Bits depend on embedding dimension.} Two synthetic clusters in $\mathbb{R}^{20}$, separated only in the first 5 dimensions. \emph{Left:} Classification accuracy (linear SVM) vs.\ projection dimension $k$, where projection retains the first $k$ coordinates. Distinguishability saturates once all separating dimensions are included. \emph{Center:} At $k{=}1$, clusters overlap heavily---the distinction is \emph{unrepresentable}. \emph{Right:} At $k{=}5$, clusters separate cleanly. The ``bit'' distinguishing them exists only at sufficient $k$.}
+    \label{fig:aliasing}
+\end{figure}
+
+The credit framework thus operates downstream of a prior constraint: the system must already have access to a state space of sufficient dimension to represent the relevant distinctions. Dimensional constraints on representability are logically prior to thermodynamic costs of manipulation.
+
+\subsection{Limitations}
+
+This framework is accounting, not dynamics. It does not predict:
+\begin{itemize}
+    \item How fast credit can be created or spent (depends on relaxation timescales).
+    \item The optimal protocol for a given system (requires solving a control problem).
+    \item How credit converts between forms (though conservation constrains the total).
+\end{itemize}
+
+The thermodynamic-length bound (Eq.~\ref{eq:thermolength}) holds in linear response and may require corrections far from equilibrium.
+
+\section{Conclusion}
+
+Landauer's bound is not a fixed tax on computation. It is a lower limit that depends on the entropy removed, which depends on the state credit available. Bias and correlations are thermodynamic resources obeying a conservation law; protocol efficiency reduces waste but is not conserved.
+
+Episodes of ultra-low dissipation or work extraction are withdrawals from the state-credit account, not thermodynamic free lunches. The accounting clarifies what must be measured—entropy, mutual information, thermodynamic length—to predict dissipation in real systems. For biological and engineered information processors, the question is not ``how many bits?'' but ``how much credit, and how good is the protocol?''
+
+\bibliographystyle{plainnat}
+\bibliography{references_v2}
+
+\end{document}

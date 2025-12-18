@@ -1,0 +1,207 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{setspace}
+\doublespacing
+
+\title{Negative Work as an Information Credit System:\\
+Credit-Adjusted Landauer Bounds from Bias, Correlation, and Geometric Structure}
+
+\author{Ian Todd\\
+Sydney Medical School\\
+University of Sydney\\
+\texttt{itod2305@uni.sydney.edu.au}}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Landauer's principle is widely paraphrased as ``erasing a bit costs $k_\mathrm{B}T\ln 2$''. The correct statement is entropic: the minimal work required for logically irreversible state reset scales with the \emph{entropy removed} from the register. This matters because real biological and physical substrates are not featureless thermal baths: they contain \emph{bias} (nonuniform priors), \emph{correlations} (side information), and \emph{geometric structure} (curved or coherent state-space dynamics) that reduce the entropy that must be expelled as heat during code formation.
+
+We propose a bookkeeping view in which such structure constitutes an \textbf{information credit} that can be accrued (by creating bias, correlations, or coherent low-entropy order) and later spent to perform information-processing steps with reduced dissipation, including episodes of apparent ``negative Landauer work'' (net work extraction). We formalize a simple credit ledger that extends standard information-thermodynamic inequalities by adding a redeemable structure term, and we provide toy examples showing how (i) a tilted register lowers erasure work in proportion to Shannon entropy, and (ii) mutual information with an environment reduces erasure work to a conditional entropy. These examples clarify how ``cheap observation'' arises when the system already ``knows'' the answer: measurement cost scales with surprise, not representation size.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Landauer principle; nonequilibrium free energy; mutual information; information geometry; code formation; dimensionality
+
+\section{Introduction}
+
+Episodes of ultra-low dissipation and work extraction in information-processing systems are often described informally as ``violations'' or ``evasions'' of Landauer's limit. The recurrent confusion is semantic: Landauer's bound is not a fixed price per physical bit, but a lower bound proportional to the entropy reduction of a register \citep{landauer1961,bennett1982,parrondo2015}.
+
+In practice, code formation and measurement do not occur in a featureless thermal bath. Living systems, engineered controllers, and coherent physical substrates maintain structure across time: \emph{biased priors} (tilted distributions), \emph{correlations} with an environment (side information), and \emph{coherent geometric constraints} that effectively pre-shape the control landscape. Such structure can be treated as a consumable resource. When it is present, the same logical operation can be performed with reduced dissipation; when it is consumed, the reduction must be paid back by increasing entropy elsewhere, consistent with the second law.
+
+This paper offers a compact formalism for that intuition: \textbf{negative work as an information credit system}. The intent is not to introduce new thermodynamics, but to provide a transparent ledger linking: (i) entropy removed from a register, (ii) correlations used as side information, and (iii) pre-existing geometric/coherent structure in the control landscape. We focus on minimal models that are easy to simulate and that generate figure-ready predictions.
+\footnote{Relevant experimental anchors include biased/tilted erasure protocols \citep{berut2012} and information-to-work conversion via feedback \citep{toyabe2010}, with the general accounting formalized in feedback fluctuation theorems \citep{sagawa2010} and stochastic thermodynamics \citep{seifert2012}.}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/fig1_credit_ledger.pdf}
+    \caption{\textbf{Credit ledger view.} Structured reservoirs (bias, correlations, geometric structure) act as an information credit that can be redeemed to reduce local work dissipation during code formation (writing/erasing). Negative-work episodes correspond to spending stored structure, not violating the second law.}
+    \label{fig:ledger}
+\end{figure}
+
+\section{Landauer Cost Depends on Entropy, Not Bit-Count}
+
+Consider a one-bit register $X\in\{0,1\}$ with distribution $p(x)$. Resetting it to a standard state (e.g., $X{=}0$) is a logically irreversible operation. In the simplest setting, the minimal average work required satisfies
+\begin{equation}
+    W_{\min} \ge k_\mathrm{B}T \ln 2 \; H(X),
+    \label{eq:landauer_shannon}
+\end{equation}
+where $H(X)$ is the Shannon entropy in bits. A perfectly unbiased bit has $H{=}1$ and the familiar $k_\mathrm{B}T\ln 2$ appears; a \emph{tilted} bit with $p(1)=0.1$ has $H\approx 0.469$ and can be erased for $\approx 0.469\,k_\mathrm{B}T\ln 2$.
+
+This immediately reframes ``cheap observation'': if an internal register is already biased toward the correct answer, overwriting it to record an observation removes less uncertainty and therefore dissipates less.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/fig2_tilted_register.pdf}
+    \caption{\textbf{Tilted register.} Minimal reset work scales with entropy removed, not with the existence of a physical bit. A pre-biased register carries ``credit'' (negentropy) that can be spent to make later erasure/writing cheaper.}
+    \label{fig:tilt}
+\end{figure}
+
+\section{Side Information: Correlation Credit}
+
+If the register $X$ is correlated with another system $Y$ (``environment'', ``model'', ``predictor''), the relevant quantity is the conditional entropy. In the presence of side information, the minimal work to reset $X$ can be reduced to \citep{delrio2011,parrondo2015}
+\begin{equation}
+    W_{\min} \ge k_\mathrm{B}T \ln 2 \; H(X|Y).
+    \label{eq:landauer_conditional}
+\end{equation}
+Using $H(X|Y)=H(X)-I(X;Y)$, the reduction in work is proportional to mutual information:
+\begin{equation}
+    W_{\min} \ge k_\mathrm{B}T \ln 2 \; \big(H(X)-I(X;Y)\big).
+    \label{eq:landauer_mutualinfo}
+\end{equation}
+
+This makes the accounting explicit: if you first create mutual information (measurement, prediction, coherence), you can later \emph{spend} it to erase or write with lower dissipation. No paradox is required; the second law holds because building correlations consumes free energy, and consuming correlations increases entropy elsewhere.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/fig3_side_information.pdf}
+    \caption{\textbf{Correlation credit.} Side information reduces the erasure bound from $H(X)$ to $H(X|Y)=H(X)-I(X;Y)$. For a uniform bit, $W_{\min}/(k_\mathrm{B}T\ln 2)=1-I$. The same mutual information bounds maximal extractable work under feedback, giving an operational meaning to ``credit'' \citep{sagawa2010,toyabe2010}.}
+    \label{fig:sideinfo}
+\end{figure}
+
+\section{Structure Credit: A Minimal Ledger}
+
+The above are standard results. The contribution here is a unified ledger interpretation that treats multiple forms of structure as a single \emph{redeemable credit}.
+
+\subsection{Credit as nonequilibrium free energy}
+
+For a system with microstate distribution $p$ and equilibrium distribution $\pi$ (at temperature $T$), the nonequilibrium free energy can be written as
+\begin{equation}
+    F(p)=F(\pi)+k_\mathrm{B}T\,D\!\left(p\|\pi\right),
+\end{equation}
+so the relative entropy $D(p\|\pi)$ quantifies the maximum work extractable upon relaxation. In this sense, \textbf{relative entropy is a work-credit}.
+
+For a binary register with $\pi=(1/2,1/2)$, $D(p\|\pi)=\ln 2 - H_\mathrm{nats}(p)$, i.e., the ``credit'' is exactly the bit's negentropy.
+
+\subsection{Geometric structure and thermodynamic length}
+
+Bias and correlation are not the only sources of reduced dissipation. Even when initial and final states are fixed, the energetic cost of \emph{how} you move through state space depends on the control geometry. In linear response near equilibrium, the excess (irreversible) work for a protocol of duration $\tau$ satisfies \citep{crooks2007,sivak2012}
+\begin{equation}
+    W_{\mathrm{irr}} \;\ge\; \frac{k_\mathrm{B}T}{2\tau}\,\mathcal{L}^2,
+    \label{eq:thermolength_bound}
+\end{equation}
+where $\mathcal{L}=\int \sqrt{d\lambda^\top g(\lambda)\,d\lambda}$ is the \textbf{thermodynamic length} of the path in control-parameter space under an appropriate metric $g$ (often Fisher-information-derived). Geodesics minimize $\mathcal{L}$, hence minimize the unavoidable dissipation for fixed $\tau$.
+
+This is sometimes described loosely as ``curvature makes some paths cheaper'', but what matters operationally is \emph{anisotropic metric weighting}: some directions in state space are expensive, and good protocols move along cheap directions (or temporarily move to regions where expensive directions become cheap).
+
+As a concrete illustration, the family of univariate Gaussian distributions has a Fisher metric
+\begin{equation}
+ds^2 = \frac{d\mu^2 + 2\,d\sigma^2}{\sigma^2},
+\end{equation}
+which corresponds (up to scale) to the Poincar\'e half-plane geometry after the change of variables $y=\sqrt{2}\,\sigma$. In this metric, changing the mean $\mu$ is especially expensive when $\sigma$ is small. Figure~\ref{fig:thermolength} compares an axis-aligned ``naive'' protocol (shift $\mu$ at small $\sigma$) to the Fisher-geodesic between the same endpoints (inflate $\sigma$, move $\mu$, then contract), illustrating how geometry selects low-dissipation paths.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.92\textwidth]{figures/fig4_thermodynamic_length.pdf}
+    \caption{\textbf{Geometry constrains cost.} In the Fisher geometry of univariate Gaussians, a geodesic is shorter than a naive axis-aligned protocol between the same endpoints. In finite-time control near equilibrium, $W_{\mathrm{irr}}\gtrsim (k_\mathrm{B}T/2\tau)\mathcal{L}^2$, so reductions in $\mathcal{L}$ translate directly into reductions of unavoidable dissipation \citep{crooks2007,sivak2012}.}
+    \label{fig:thermolength}
+\end{figure}
+
+\subsection{A credit-adjusted Landauer inequality}
+
+We consider code formation steps that reduce a register's entropy by $\Delta H$ bits (e.g., from an uncertain internal state to a discrete symbol). A useful separation is:
+\begin{equation}
+    W = W_{\mathrm{rev}} + W_{\mathrm{irr}},
+\end{equation}
+where $W_{\mathrm{rev}}$ is the reversible endpoint cost (entropy reduction financed by available structure), and $W_{\mathrm{irr}}$ is the finite-time excess dissipation governed by protocol geometry (Eq.~\ref{eq:thermolength_bound}).
+
+As a coarse ledger, we track two distinct resources:
+\begin{itemize}
+    \item \textbf{Correlation credit} via mutual information $\Delta I$ with side information (Section 3).
+    \item \textbf{Structure credit} $\Delta C_{\mathrm{str}}$ capturing other redeemable nonequilibrium structure (e.g., biased priors, chemical gradients, coherent order parameters), defined to \emph{exclude} mutual information to avoid double counting.
+\end{itemize}
+
+In these terms, one convenient reversible bound (not claimed as a new theorem, but a useful bookkeeping identity) is:
+\begin{equation}
+    \beta W_{\mathrm{rev}} \;\gtrsim\; \Delta H \ln 2\;-\;\Delta I\;-\;\Delta C_{\mathrm{str}},
+    \label{eq:credit_adjusted}
+\end{equation}
+where $\beta=(k_\mathrm{B}T)^{-1}$ and $\Delta C_{\mathrm{str}}$ is the redeemed structure credit (decrease in available nonequilibrium free energy / bias along the operation). If $\Delta I + \Delta C_{\mathrm{str}} \ge \Delta H \ln 2$, the reversible work requirement can approach zero; if it exceeds it, the operation can exhibit $W_{\mathrm{rev}}<0$ (net work extraction) while consuming stored structure, consistent with standard information-to-work conversion results \citep{toyabe2010,sagawa2010,seifert2012}.
+
+For finite-time protocols, the total work also includes $W_{\mathrm{irr}}$, which is nonnegative and protocol-dependent via Eq.~\ref{eq:thermolength_bound}. Equivalently, relative to a naive protocol with length $\mathcal{L}_{\mathrm{naive}}$, an optimized protocol yields a \emph{geometric discount} in irreversible work of order $(k_\mathrm{B}T/2\tau)(\mathcal{L}_{\mathrm{naive}}^2-\mathcal{L}_{\mathrm{opt}}^2)$.
+
+\textbf{Second-law sanity check.} Credit cannot be created from nothing: building bias, correlations, or other nonequilibrium structure requires work input and/or entropy export elsewhere \citep{seifert2012,parrondo2015}. The ledger is meant to make explicit \emph{where} the payment happens, not to evade it.
+
+The conceptual punchline is simple: \textbf{negative work does not invalidate Landauer; it indicates that the operation is financed by a structured reservoir.}
+
+\section{From Nonergodicity to Codes to Memory (Scope)}
+
+The credit ledger above is local: it accounts for the thermodynamic ``financing'' of specific code-formation steps. Here we briefly situate it in a broader dynamical ordering relevant to biological systems, where persistent bias can arise without explicit symbolic memory.
+
+The proposed sequence is:
+\begin{enumerate}
+    \item \textbf{Nonergodicity first:} High-dimensional dissipative dynamics generically confine trajectories and create history dependence (``tilt'') without explicit symbols.
+    \item \textbf{Code formation next:} Once confinement becomes addressable by low-dimensional control parameters (entrainment, bottlenecks, coarse-graining), stable codes emerge as handles on high-dimensional state.
+    \item \textbf{Memory last:} Codes become memory when stabilized on slow variables (weights, marks, morphology), making the tilt persistent across time.
+\end{enumerate}
+In this view, ``intelligence'' begins as cheap nonergodic bias, and explicit symbolic memory appears later as a higher-cost but higher-portability regime.
+
+\section{Predictions and Minimal Tests}
+
+The credit ledger suggests measurable signatures that distinguish ``cheap'' from ``forced'' code formation:
+
+\subsection{Biased erasure scales with Shannon entropy}
+
+In tilted/biased erasure protocols (e.g., colloidal double-well setups), dissipation should scale as $Q \approx k_\mathrm{B}T\ln 2 \cdot H(p)$, where $p$ is the initial bias \citep{berut2012}. ``Beating'' $k_\mathrm{B}T\ln 2$ is then equivalent to preparing $H(p)<1$.
+
+\subsection{Partial information sets the work-extraction ceiling}
+
+For feedback engines and measurement-assisted work extraction, the ceiling should track mutual information: $W_{\mathrm{out}}\le k_\mathrm{B}T\ln 2 \cdot I(X;Y)$, degrading smoothly as measurement noise reduces $I$ \citep{toyabe2010,sagawa2010}.
+
+\subsection{Protocol geometry predicts dissipation ratios}
+
+When endpoint states are held fixed but protocols differ, dissipation should scale with thermodynamic length: $W_{\mathrm{irr}}\propto \mathcal{L}^2/\tau$ in the linear-response regime \citep{crooks2007,sivak2012}. This predicts quantitative ratios between naive and optimized protocols (Fig.~\ref{fig:thermolength}).
+
+\subsection{Credit depletion implies hysteresis in finite reservoirs}
+
+If the ``credit'' resides in a finite, relaxational reservoir (e.g., a biased prior that is not actively re-established, a finite chemical gradient, or a coherence order parameter that decays), repeated code-formation operations should show hysteresis: early operations are cheap, later ones approach the unbiased/unstructured cost unless credit is replenished. Distinguishing ``cheap because structured'' from ``cheap because slow'' requires tracking both dissipation and recovery dynamics across repeated cycles.
+
+\section{Limitations}
+
+The credit ledger is an accounting perspective, not a full dynamical theory. It does not by itself predict (i) how quickly credit can be accrued, (ii) how different forms of credit interconvert in far-from-equilibrium regimes, or (iii) when linear-response geometric bounds (Eq.~\ref{eq:thermolength_bound}) are accurate. Those require specifying concrete physical substrates and protocols.
+
+\textbf{Dimension-relative information.} Entropy, mutual information, and ``surprise'' are defined only relative to a chosen description: a set of state variables, a measurement channel, and an implicit partition/coarse-graining of state space. A ``bit'' presupposes that a binary distinction is representable and distinguishable in that description. Under projection or dimensional collapse, distinct high-dimensional states can alias to the same low-dimensional observation, making some distinctions (and hence some bits) undefined at that level of analysis. Figure~\ref{fig:aliasing} gives a toy illustration: the ``bit'' distinguishing two clusters does not exist at $k{=}1$ but becomes representable once the embedding captures the separating dimensions. More generally, injective embeddings (and faithful reconstructions) impose dimensional prerequisites \citep{whitney1936,takens1981,sauer1991}. The present ledger assumes a fixed state manifold and a fixed representational frame; extending it to variable-dimensional codes would require tracking how the admissible state space (and its metric/entropy structure) changes under dimensional reduction.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig5_dimensional_aliasing.pdf}
+    \caption{\textbf{Bits depend on embedding dimension.} Two clusters separated in 5 of 20 dimensions. Left: a distinguishability measure increases with projection dimension until all separating dimensions are included. Center: at $k{=}1$, the clusters overlap (alias) and the distinction is unrepresentable at this resolution. Right: at $k{=}5$, the clusters separate and the distinction becomes representable.}
+    \label{fig:aliasing}
+\end{figure}
+
+\section{Conclusion}
+
+Landauer bounds are routinely invoked as fixed per-bit costs, but the physically relevant quantity is the entropy removed \emph{given available structure}. Treating bias, correlations, and geometric/protocol structure as an information credit clarifies why biological and analog substrates can exhibit sub-Landauer dissipation and even negative-work episodes while remaining fully consistent with the second law. The remaining empirical challenge is to measure where credit is stored (bias, correlations, nonequilibrium free energy) and how rapidly it can be redeemed under real dynamical constraints.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
