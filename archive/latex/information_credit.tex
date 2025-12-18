@@ -11,7 +11,7 @@
 \doublespacing
 
 \title{State Credit and Protocol Efficiency:\\
-A Decomposition of Sub-na\"ive-Landauer Dissipation}
+A Decomposition of Apparent Sub-Landauer Dissipation}
 
 \author{Ian Todd\\
 Sydney Medical School, University of Sydney, Australia\\
@@ -23,7 +23,7 @@ Sydney Medical School, University of Sydney, Australia\\
 \maketitle
 
 \begin{abstract}
-Landauer's bound is often stated as a fixed cost per bit erased. The correct bound depends on entropy removed, which can be significantly less than the bit-count when the system or its environment carries structure. We show that apparent sub-na\"ive-Landauer episodes decompose into two distinct mechanisms: (i) \emph{state credit}---bias (negentropy) and correlations (mutual information) that reduce the reversible work bound and obey a conservation law; and (ii) \emph{protocol efficiency}---geometric structure in control space (thermodynamic length) that reduces irreversible dissipation but is not itself conserved. This decomposition yields a combined finite-time bound unifying information-theoretic and geometric contributions, and clarifies that anomalously low dissipation corresponds to spending accumulated state credit, not violating thermodynamic limits. We propose experimental tests in colloidal systems and feedback engines.
+Landauer's bound is often stated as a fixed cost per bit erased. The correct bound depends on entropy removed, which can be significantly less than the bit-count when the system or its environment carries structure. We show that apparent sub-Landauer episodes decompose into two distinct mechanisms: (i) \emph{state credit}---bias (negentropy) and correlations (mutual information) that reduce the reversible work bound and obey a conservation law; and (ii) \emph{protocol efficiency}---geometric structure in control space (thermodynamic length) that reduces irreversible dissipation but is not itself conserved. This decomposition yields a combined finite-time bound unifying information-theoretic and geometric contributions, and clarifies that anomalously low dissipation corresponds to spending accumulated state credit, not violating thermodynamic limits. We propose experimental tests in colloidal systems and feedback engines.
 \end{abstract}
 
 \noindent\textbf{Keywords:} Landauer principle, nonequilibrium thermodynamics, mutual information, thermodynamic length, stochastic thermodynamics
@@ -49,7 +49,7 @@ The purpose of this paper is to provide a clear accounting scheme for these phen
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.98\textwidth]{figures/fig1_credit_ledger.pdf}
-    \caption{\textbf{The decomposition.} \emph{Top left:} State credit (bias + correlations) is a conserved resource that reduces $W_{\mathrm{rev}}$; spending it requires prior accumulation. \emph{Bottom left:} Protocol optimization (geometry) reduces $W_{\mathrm{irr}}$ but does not deplete---it is always available if implementable. Both mechanisms allow sub-na\"ive-Landauer operation, but only state credit obeys a conservation law.}
+    \caption{\textbf{The decomposition.} \emph{Top left:} State credit (bias + correlations) is a conserved resource that reduces $W_{\mathrm{rev}}$; spending it requires prior accumulation. \emph{Bottom left:} Protocol optimization (geometry) reduces $W_{\mathrm{irr}}$ but does not deplete---it is always available if implementable. Both mechanisms allow sub-Landauer operation, but only state credit obeys a conservation law.}
     \label{fig:ledger}
 \end{figure}
 
@@ -116,12 +116,12 @@ Note that classically $I(X;Y) \leq H(X)$, so $C_{\mathrm{state}} \leq H_{\max}$ 
 
 \subsection{Conservation of state credit}
 
-State credit cannot increase without external work input. Under isothermal conditions with well-defined nonequilibrium free energy, the change in credit over any protocol is bounded by the work invested:
+State credit cannot increase without external work input. Under isothermal conditions with well-defined nonequilibrium free energy, standard nonequilibrium free energy accounting \citep{parrondo2015,seifert2012} implies that the change in credit over any protocol is bounded by the work invested:
 \begin{equation}
     \Delta C_{\mathrm{state}} \leq \frac{W_{\mathrm{in}}}{k_\mathrm{B}T\ln 2}.
     \label{eq:conservation}
 \end{equation}
-This is a corollary of standard nonequilibrium free energy accounting \citep{parrondo2015,seifert2012}, not a new result. In isothermal settings, $k_\mathrm{B}T\ln 2 \cdot C_{\mathrm{state}}$ is the information free energy available to offset work---``credit'' is not merely a metaphor but a thermodynamic quantity. The inequality expresses the intuition that credit can be transferred between subsystems, converted between forms (measurement converts work into correlation), or dissipated---but not created from nothing. It assumes the system-plus-reservoir entropy is non-decreasing and that mutual information is explicitly tracked.
+This is a corollary of established results, not a new derivation. In isothermal settings, $k_\mathrm{B}T\ln 2 \cdot C_{\mathrm{state}}$ is the information free energy available to offset work---``credit'' is not merely a metaphor but a thermodynamic quantity. The inequality expresses the intuition that credit can be transferred between subsystems, converted between forms (measurement converts work into correlation), or dissipated---but not created from nothing. It assumes the system-plus-reservoir entropy is non-decreasing and that mutual information is explicitly tracked.
 
 \section{Protocol Efficiency: Geometry}
 
@@ -177,7 +177,7 @@ Episodes of ultra-low dissipation occur when state credit is high (reducing the 
 \[
     \frac{W}{k_\mathrm{B}T\ln 2} \gtrsim 0.17 + \frac{\mathcal{L}^2}{2\tau\ln 2}.
 \]
-For $\tau = 10$, this gives $W/(k_\mathrm{B}T\ln 2) \gtrsim 0.33$, i.e.\ $W \gtrsim 0.23\,k_\mathrm{B}T$, well below the naive $k_\mathrm{B}T\ln 2 \approx 0.69\,k_\mathrm{B}T$.
+For $\tau = 10$, the irreversible term is $\mathcal{L}^2/(2\tau\ln 2) = 2.25/(20 \times 0.693) \approx 0.16$, giving $W/(k_\mathrm{B}T\ln 2) \gtrsim 0.17 + 0.16 = 0.33$, i.e.\ $W \gtrsim 0.23\,k_\mathrm{B}T$, well below the naive $k_\mathrm{B}T\ln 2 \approx 0.69\,k_\mathrm{B}T$.
 
 \section{Experimental Predictions}
 
