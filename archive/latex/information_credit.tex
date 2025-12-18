@@ -38,7 +38,7 @@ The physics of information processing is often summarized by Landauer's limit: e
 where $\Delta S_{\mathrm{register}}$ is the entropy \emph{removed} from the information-bearing degrees of freedom \citep{bennett1982,parrondo2015}. A biased bit has less entropy; erasing it costs less.
 Throughout, we take work $W>0$ as work performed \emph{on} the register (work input). When feedback yields net work output, we report it as $W_{\mathrm{out}}:=-W\ge 0$.
 
-This entropic framing resolves apparent paradoxes. Experiments have demonstrated erasure below the ``$k_\mathrm{B}T\ln 2$ limit'' using tilted potentials \citep{berut2012} and work extraction from information using feedback \citep{toyabe2010}. These results are not violations---they are consequences of structure in the initial state or correlations with a measurement apparatus.
+This entropic framing resolves apparent paradoxes. Experiments have confirmed the entropic bound in standard erasure \citep{berut2012}, while feedback protocols have demonstrated work extraction from correlations \citep{toyabe2010}. These results are not violations of a ``$k_\mathrm{B}T\ln 2$ per bit'' rule---they are consequences of structure in the initial state or correlations with a measurement apparatus.
 
 The purpose of this paper is to provide a clear accounting scheme for these phenomena, continuing the analysis of information-thermodynamic constraints in physical substrates developed in \citep{todd2025demon}. We distinguish two mechanisms:
 \begin{enumerate}
@@ -78,7 +78,7 @@ The negentropy $H_{\max} - H(X)$, where $H_{\max} = \log_2|\mathcal{X}|$ is the 
 
 \section{State Credit II: Correlations}
 
-If the register $X$ is correlated with an auxiliary system $Y$, the erasure bound tightens further. Given access to $Y$, the minimal work to reset $X$ is \citep{sagawa2010} (see \citep{delrio2011} for quantum extensions)
+If the register $X$ is correlated with an auxiliary system $Y$, the erasure bound tightens further. Given access to $Y$, the minimal work to reset $X$ is \citep{sagawa2009} (see \citep{delrio2011} for quantum extensions)
 \begin{equation}
     W_{\mathrm{rev}} = k_\mathrm{B}T\ln 2 \cdot H(X|Y),
     \label{eq:wrev_corr}
